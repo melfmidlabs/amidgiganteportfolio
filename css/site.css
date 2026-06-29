@@ -1,0 +1,159 @@
+﻿html {
+    scroll-behavior: smooth;
+}
+
+/*.section {
+    min-height: 100vh;
+    scroll-margin-top: 80px;
+    padding: 4rem 0;
+}*/
+
+.gradient-text-title {
+    background: var(--gradient-text-title-bg);
+    font-weight: 700 !important;
+    font-size: clamp(3rem, 5vw, 5rem) !important;
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 1s ease;
+}
+
+.gradient-1 {
+    background-image: linear-gradient( 90deg, #6366f1, #a855f7 );
+}
+
+.gradient-2 {
+    background-image: linear-gradient( 90deg, #22c55e, #14b8a6 );
+}
+
+
+.gradient-3 {
+    background-image: linear-gradient( 90deg, #ff4d6d, #ec4899 );
+}
+
+.gradient-4 {
+    background-image: linear-gradient( 90deg, #ff7b00, #ef4444 );
+}
+
+
+/*
+    Hero Section
+*/
+.hero-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: #050816;
+}
+
+    .hero-background::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+
+    .hero-background::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient( circle at 15% 50%, rgba(0, 119, 255, 0.18), transparent 35% ), radial-gradient( circle at 50% 45%, rgba(255, 0, 128, 0.25), transparent 30% ), radial-gradient( circle at 85% 35%, rgba(0, 255, 255, 0.15), transparent 35% );
+        filter: blur(60px);
+    }
+
+    .hero-background::after {
+        animation: glowMove 12s ease-in-out infinite alternate;
+    }
+
+ @keyframes glowMove {
+    from {
+        transform: translateY(-20px);
+    }
+
+    to {
+        transform: translateY(20px);
+    }
+}
+
+.custom-appbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(5, 8, 22, 0.45) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    z-index: 9999;
+}
+
+    .custom-appbar::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 90deg, rgba(139,92,246,.05), rgba(59,130,246,.05) );
+        pointer-events: none;
+    }
+
+.appbar-content {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+.active-section {
+    color: #1976d2;
+    font-weight: bold;
+}
+
+
+
+.profile-card {
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+    .profile-card img {
+        width: 100%;
+        height: auto;
+    }
+
+
+.text-center {
+    text-align: center;
+}
+
+.py-12 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+/*
+    Project Card
+*/
+.project-card {
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+    .project-card:hover {
+        transform: translateY(-8px);
+    }
+
+/*
+    Contact Section
+*/
+.text-center {
+    text-align: center;
+}
