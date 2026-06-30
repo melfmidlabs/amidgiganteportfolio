@@ -2,7 +2,7 @@
 
 # 👋 Hi, I'm Amid Gigante Jr.
 
-### Software Developer | .NET Developer | FullStack Developer | Embedded Systems Enthusiast
+### Software Developer | .NET Developer | FullStack Developer | Embedded Systems Enthusiast | Freelancer
 
 A passionate software developer focused on building modern web applications, embedded systems, and IoT solutions using the .NET ecosystem.
 
@@ -153,7 +153,7 @@ dotnet run
 
 # 📬 Connect With Me
 
-- 💼 LinkedIn *(Add your profile)*
+- 💼 LinkedIn *(To be added soon)*
 - 📧 Email jrgiganteamid@gmail.com
 - 🌐 Portfolio
   https://melfmidlabs.github.io/AmidGigantePortfolio/
