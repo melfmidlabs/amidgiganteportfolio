@@ -51,33 +51,71 @@ window.refreshAOS = () => {
     }
 };
 
+
 window.observeSections = (dotNetHelper) => {
 
     const sections = document.querySelectorAll("section");
 
-    const observer = new IntersectionObserver(
-        entries => {
+    let activeSection = "";
 
-            entries.forEach(entry => {
+    const observer = new IntersectionObserver((entries) => {
 
-                if (entry.isIntersecting) {
+        entries.forEach(entry => {
 
-                    dotNetHelper.invokeMethodAsync(
-                        "UpdateActiveSection",
-                        entry.target.id
-                    );
-                }
+            if (!entry.isIntersecting)
+                return;
 
-            });
+            const id = entry.target.id;
 
-        },
-        {
-            threshold: 0.5
-        }
-    );
+            if (id !== activeSection) {
+
+                activeSection = id;
+
+                dotNetHelper.invokeMethodAsync(
+                    "UpdateActiveSection",
+                    id
+                );
+            }
+
+        });
+
+    }, {
+        root: null,
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: 0
+    });
 
     sections.forEach(section => observer.observe(section));
 };
+
+// window.observeSections = (dotNetHelper) => {
+
+//     const sections = document.querySelectorAll("section");
+
+//     const observer = new IntersectionObserver(
+//         entries => {
+
+//             entries.forEach(entry => {
+
+//                 if (entry.isIntersecting) {
+
+//                     dotNetHelper.invokeMethodAsync(
+//                         "UpdateActiveSection",
+//                         entry.target.id
+//                     );
+//                 }
+
+//             });
+
+//         },
+//         {
+//             threshold: 0.2,
+//             rootMargin: "-80px 0px -50% 0px"
+//         }
+//     );
+
+//     sections.forEach(section => observer.observe(section));
+// };
 
 window.initializeTyping = () => {
 

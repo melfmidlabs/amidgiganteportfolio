@@ -119,7 +119,6 @@
         backdrop-filter: blur(16px);
         border: 1px solid rgba(255,255,255,.10);
         border-radius: .75rem;
-        padding: 32px;
         overflow: hidden;
         transition: .35s;
     }
@@ -172,7 +171,7 @@
     .featured-content {
         height: 100%;
         justify-content: center;
-        padding: 10px;
+        padding: 20px;
     }
 
     .featured-number {
@@ -180,6 +179,8 @@
         font-weight: 800;
         opacity: .18;
     }
+
+    
 
     .featured-line {
         flex: 1;
@@ -210,6 +211,35 @@
         color: #888 !important;
         letter-spacing: 4px;
         text-decoration: none;
+    }
+
+
+    @@media (max-width:768px) {
+
+         .featured-title {
+        font-size: 1.875rem;
+    }
+
+        .featured-description {
+
+            font-size: .875rem;
+
+        }
+
+        .featured-number {
+            font-size: 2.25rem;
+        }
+
+        .featured-label {
+            letter-spacing: 4px;
+            font-size: 10px;
+            opacity: .6;
+        }
+
+        .view-link {
+            font-size:10px;
+            letter-spacing: .1rem;
+        }
     }
 </style>
 

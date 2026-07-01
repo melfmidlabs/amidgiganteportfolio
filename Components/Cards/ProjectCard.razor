@@ -24,7 +24,7 @@
 
 </MudOverlay>
 
-<MudGrid Class="px-4">
+<MudGrid Class="">
 
     @for (int count = 0; count < ProjectsModel.Count; count++)
     {
@@ -534,6 +534,20 @@
             background: rgba(239,68,68,.9);
             transform: rotate(90deg) scale(1.1);
         }
+
+
+    @@media (max-width:768px) {
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-description {
+            color: rgba(255,255,255,.70);
+            min-height: 80px;
+            line-height: 1.8;
+            font-size:.75rem;
+        }
+    }
 </style>
 
 @code {

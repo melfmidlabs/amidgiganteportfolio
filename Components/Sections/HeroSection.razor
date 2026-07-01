@@ -9,7 +9,7 @@
             <MudPaper Elevation="8" Class="profile-card" style="@($"--border-color:{GradientService.CurrentTheme.Color}")">
 
                 
-                    <MudImage Src="images/profile.jpg"
+                    <MudImage Src="images/profile.webp"
                               Alt="Profile"
                               Class="profile-image" />
        
@@ -43,7 +43,7 @@
                     while building innovative embedded and IoT solutions.
                 </MudText>
 
-            <MudStack Row="true" Spacing="2" Class="mt-6" data-aos="fade-up"
+            <MudStack Row="true" Spacing="2" Class="mt-6 hero-button-section" data-aos="fade-up"
                       data-aos-duration="1200">
 
                     <MudButton Class="hero-btn" Style="@($"--hero-color:{GradientService.CurrentTheme.Color}; --hero-color2:{GradientService.CurrentTheme.Secondary};")" EndIcon="@Icons.Material.Outlined.ArrowDownward" OnClick="@(() => Go("portfolio"))">
@@ -54,9 +54,9 @@
                             <MudText Typo="Typo.body1" Style="color: oklch(.928 .006 264.531);">Contact</MudText>
                         </MudButton>
 
-                </MudStack>
+            </MudStack>
 
-            <MudStack Row Spacing="1" class="mt-4" data-aos="fade-up"
+            <MudStack Row Spacing="1" class="mt-4 hero-link-button" data-aos="fade-up"
                       data-aos-duration="1400">
                     <MudIconButton Href="@github" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" aria-label="github" />
                     <MudIconButton Href="@facebook" Target="_blank" Icon="@Icons.Custom.Brands.Facebook" aria-label="facebook" />
@@ -244,18 +244,50 @@
     } */
 
 
-    .profile-image {
+   /*  .profile-image {
         width: 447.33px !important;
+        height: auto;
+        object-fit: cover;
+        border-radius: 1rem;
+        display: block;
+    } */
+    .profile-image {
+        width: 100% !important;
+        max-width: 447px;
         height: auto;
         object-fit: cover;
         border-radius: 1rem;
         display: block;
     }
 
+    @@media (max-width:768px) {
+
+        .hero-title {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .discription {
+            font-size: 1rem;
+            color: oklch(.551 .027 264.364);
+        }
+
+        #typed-text {
+          font-size:1.2rem;
+        }
+
+        .hero-button-section{
+            justify-content:center;
+        }
+        .hero-link-button{
+            justify-content: center;
+        }
+    }
+
 </style>
 
 @code {
-    private string github = "https://github.com/melfmid21";
+    private string github = "https://github.com/melfmidlabs";
     private string facebook = "https://www.facebook.com/profile.php?id=100063923315663";
     private string tiktok = "https://www.tiktok.com/@melfmid21?is_from_webapp=1&sender_device=pc";
     private string youtube = "https://www.youtube.com/@melfmid21";

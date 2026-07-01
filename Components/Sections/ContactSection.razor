@@ -1,7 +1,7 @@
 ﻿@implements IDisposable
-
+<MudBreakpointProvider OnBreakpointChanged="BreakpointChanged" />
 <MudContainer MaxWidth="MaxWidth.Medium" Class="" >
-    <MudStack AlignItems="AlignItems.Center" Spacing=0 Style="padding-left:10%; padding-right:10%;">
+    <MudStack AlignItems="AlignItems.Center" Spacing=0 >
         <MudStack Class="mb-2" AlignItems="AlignItems.Center" Spacing="1" data-aos="fade-down" data-aos-duration="1000">
             <MudText Typo="Typo.h2"
                      Align="Align.Center"
@@ -17,7 +17,7 @@
                  Open to job opportunitites, freelance, side projects and collaboration.
         </MudText>
 
-        <MudStack Row Spacing="3" AlignItems="AlignItems.Center" class="mb-2" data-aos="fade-up" data-aos-duration="1100">
+        <MudStack Row="@(_currentBreakpoint > Breakpoint.Sm)" Reverse="false" Spacing="3" AlignItems="AlignItems.Center" class="mb-2" data-aos="fade-up" data-aos-duration="1100">
 
             <MudButton Variant="Variant.Filled" class="contact-button-mail rounded-lg" style="@($"--contact-button-mail-color:{GradientService.CurrentTheme.Color}")"
                        StartIcon="@Icons.Custom.Brands.Gmail" aria-label="gmail"
@@ -48,10 +48,7 @@
 
         </MudStack>
         
-        <MudDivider class="mt-8 mb-6" />
-        <MudText Typo="Typo.caption" class="caption-title">
-            © 2026 Amid Gigante Jr. All Rights Reserved.
-        </MudText>
+       
     </MudStack>
 
 
@@ -102,6 +99,7 @@
     }
 </style>
 @code{
+    private Breakpoint _currentBreakpoint;
     private string github = "https://github.com/melfmid21";
     private string facebook = "https://www.facebook.com/profile.php?id=100063923315663";
     private string tiktok = "https://www.tiktok.com/@melfmid21?is_from_webapp=1&sender_device=pc";
@@ -119,9 +117,15 @@
         InvokeAsync(StateHasChanged);
     }
 
+    private Task BreakpointChanged(Breakpoint breakpoint)
+    {
+        _currentBreakpoint = breakpoint;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
 
     public void Dispose()
     {
         GradientService.OnChange -= Refresh;
     }
-        }
+}

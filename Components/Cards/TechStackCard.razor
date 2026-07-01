@@ -1,0 +1,639 @@
+﻿@implements IDisposable
+
+
+<!--First Section-->
+<MudGrid Class="tech-grid-container" style="@($"--color-rgba:{GradientService.CurrentTheme.ShadowRgba};--color-shadow:{GradientService.CurrentTheme.Shadow}")">
+    <!--Frontend-->
+    <MudItem xs="12" md="4">
+        <MudPaper Class="tech-section" >
+
+            <div class="tech-header" >
+
+                <div class="title-wrapper">
+
+                    <MudIcon Icon="@Icons.Material.Rounded.DesktopWindows"
+                             Class="section-icon" style="@($"color:{Colors.Purple.Default};")" />
+
+                    <div>
+
+                        <MudText Typo="Typo.h4"
+                                 Class="fw-bold techstack-title">
+                            Frontend
+                        </MudText>
+
+                        <div class="title-line"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="dots">
+                    @for (int i = 0; i < 16; i++)
+                    {
+                        <span></span>
+                    }
+                </div>
+
+            </div>
+
+            <MudText Class="section-description mt-6 mb-8">
+                Technologies I use to build interactive and responsive user interfaces.
+            </MudText>
+
+            <div class="tech-grid">
+
+                @foreach (var tech in Frontend)
+                {
+
+          
+                    <MudPaper Class="tech-card">
+
+                      @*   <i class="@tech.Icon tech-icon"
+                           style="color:@tech.Color">
+                        </i> *@
+                        <img src="@tech.Icon"
+                         alt="@tech.Name"
+                         class="tech-icon" />
+
+                        <MudText Typo="Typo.subtitle1"
+                                 Class="mt-4 tech-name fw-bold">
+                            @tech.Name
+                        </MudText>
+
+                    </MudPaper>
+
+         
+                }
+
+            </div>
+
+        </MudPaper>
+    </MudItem>
+   
+    <!--Backend-->
+    <MudItem xs="12" md="4">
+        <MudPaper Class="tech-section pa-8">
+
+            <div class="tech-header">
+
+                <div class="title-wrapper">
+
+                    <MudIcon Icon="@Icons.Material.Rounded.DesktopWindows"
+                             Class="section-icon" style="@($"color:{Colors.Blue.Darken2};")" />
+
+                    <div>
+
+                        <MudText Typo="Typo.h4"
+                                 Class="fw-bold techstack-title">
+                            Backend
+                        </MudText>
+
+                        <div class="title-line"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="dots">
+                    @for (int i = 0; i < 16; i++)
+                    {
+                        <span></span>
+                    }
+                </div>
+
+            </div>
+
+            <MudText Class="section-description mt-6 mb-8">
+                Technologies I use to build robust APIs and server-side applications
+            </MudText>
+
+            <div class="tech-grid">
+
+                @foreach (var tech in Backend)
+                {
+
+          
+                    <MudPaper Class="tech-card">
+
+                       <img src="@tech.Icon"
+                         alt="@tech.Name"
+                         class="tech-icon" />
+
+                        <MudText Typo="Typo.subtitle1"
+                                 Class="mt-4 tech-name fw-bold">
+                            @tech.Name
+                        </MudText>
+
+                    </MudPaper>
+
+         
+                }
+
+            </div>
+
+        </MudPaper>
+    </MudItem>
+   
+    <!--Database-->
+    <MudItem xs="12" md="4">
+        <MudPaper Class="tech-section pa-8">
+
+            <div class="tech-header">
+
+                <div class="title-wrapper">
+
+                    <MudIcon Icon="@Icons.Material.Rounded.Api"
+                             Class="section-icon" style="@($"color:{Colors.DeepPurple.Default};")" />
+
+                    <div>
+
+                        <MudText Typo="Typo.h4"
+                                 Class="fw-bold techstack-title">
+                            Database
+                        </MudText>
+
+                        <div class="title-line"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="dots">
+                    @for (int i = 0; i < 16; i++)
+                    {
+                        <span></span>
+                    }
+                </div>
+
+            </div>
+
+            <MudText Class="section-description mt-6 mb-8">
+                Technologies I use to build robust APIs and server-side applications
+            </MudText>
+
+            <div class="tech-grid">
+
+                @foreach (var tech in Database)
+                {
+
+          
+                    <MudPaper Class="tech-card">
+
+                       <img src="@tech.Icon"
+                         alt="@tech.Name"
+                         class="tech-icon" />
+
+                        <MudText Typo="Typo.subtitle1"
+                                 Class="mt-4 tech-name fw-bold">
+                            @tech.Name
+                        </MudText>
+
+                    </MudPaper>
+
+         
+                }
+
+            </div>
+
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+<!--Second Section-->
+<MudGrid style="@($"--color-rgba:{GradientService.CurrentTheme.ShadowRgba};--color-shadow:{GradientService.CurrentTheme.Shadow}")">
+    <!--Embedded & AI-->
+    <MudItem xs="12" md="4">
+        <MudPaper Class="tech-section pa-8">
+
+            <div class="tech-header">
+
+                <div class="title-wrapper">
+
+                    <MudIcon Icon="@Icons.Material.Rounded.Memory"
+                             Class="section-icon" style="@($"color:{Colors.Cyan.Default};")" />
+
+                    <div>
+
+                        <MudText Typo="Typo.h4"
+                                 Class="fw-bold techstack-title">
+                            Embedded & AI
+                        </MudText>
+
+                        <div class="title-line"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="dots">
+                    @for (int i = 0; i < 16; i++)
+                    {
+                        <span></span>
+                    }
+                </div>
+
+            </div>
+
+            <MudText Class="section-description mt-6 mb-8">
+               Embedded systems, sensors & AI tools I work with for smart solutions
+            </MudText>
+
+            <div class="tech-grid">
+
+                @foreach (var tech in Embedded)
+                {
+
+          
+                    <MudPaper Class="tech-card">
+
+                     <img src="@tech.Icon"
+                         alt="@tech.Name"
+                         class="tech-icon" />
+
+                        <MudText Typo="Typo.subtitle1"
+                                 Class="mt-4 tech-name fw-bold">
+                            @tech.Name
+                        </MudText>
+
+                    </MudPaper>
+
+         
+                }
+
+            </div>
+
+        </MudPaper>
+    </MudItem>
+
+    <!--Tools-->
+    <MudItem xs="12" md="4">
+        <MudPaper Class="tech-section pa-8">
+
+            <div class="tech-header">
+
+                <div class="title-wrapper">
+
+                    <MudIcon Icon="@Icons.Material.Rounded.Handyman"
+                             Class="section-icon" style="@($"color:{Colors.Pink.Lighten1};")" />
+
+                    <div>
+
+                        <MudText Typo="Typo.h4"
+                                 Class="fw-bold techstack-title">
+                            Tools
+                        </MudText>
+
+                        <div class="title-line"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="dots">
+                    @for (int i = 0; i < 16; i++)
+                    {
+                        <span></span>
+                    }
+                </div>
+
+            </div>
+
+            <MudText Class="section-description mt-6 mb-8">
+                Tools and platforms that help me design, develop and deploy
+            </MudText>
+
+            <div class="tech-grid">
+
+                @foreach (var tech in Tools)
+                {
+
+          
+                    <MudPaper Class="tech-card">
+
+                      <img src="@tech.Icon"
+                         alt="@tech.Name"
+                         class="tech-icon" />
+
+                        <MudText Typo="Typo.subtitle1"
+                                 Class="mt-4 tech-name fw-bold">
+                            @tech.Name
+                        </MudText>
+
+                    </MudPaper>
+
+         
+                }
+
+            </div>
+
+        </MudPaper>
+    </MudItem>
+
+    <!--Native Development-->
+    <MudItem xs="12" md="4">
+        <MudPaper Class="tech-section pa-8">
+
+            <div class="tech-header">
+
+                <div class="title-wrapper">
+
+                    <MudIcon Icon="@Icons.Material.Rounded.Devices"
+                             Class="section-icon" style="@($"color:{Colors.Orange.Darken1};")" />
+
+                    <div>
+
+                        <MudText Typo="Typo.h4"
+                                 Class="fw-bold techstack-title">
+                            Native Dev.
+                        </MudText>
+
+                        <div class="title-line"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="dots">
+                    @for (int i = 0; i < 16; i++)
+                    {
+                        <span></span>
+                    }
+                </div>
+
+            </div>
+
+            <MudText Class="section-description mt-6 mb-8">
+                Tools and frameworks I use to build native mobile and desktop applications.
+            </MudText>
+
+            <div class="tech-grid">
+
+                @foreach (var tech in Native)
+                {
+
+          
+                    <MudPaper Class="tech-card">
+
+                        <img src="@tech.Icon"
+                             alt="@tech.Name"
+                             class="tech-icon" />
+
+                        <MudText Typo="Typo.subtitle1"
+                                 Class="mt-4 tech-name fw-bold">
+                            @tech.Name
+                        </MudText>
+
+                    </MudPaper>
+
+         
+                }
+
+            </div>
+
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+<style>
+
+    .tech-grid-container {
+    align-items: stretch;
+}
+
+.tech-grid-container .mud-grid-item {
+    display: flex;
+}
+
+    .techstack-title{
+        font-size: 24px;
+    }
+
+    .tech-section {
+        padding:24px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 22px;
+        background: rgba(17, 24, 39, 0.50);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,.10);
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+        .tech-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, var(--color-rgba), transparent 35%);
+            pointer-events: none;
+        }
+
+    .tech-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .title-wrapper {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .section-icon {
+        font-size: 42px;
+        /* color: #a855f7; */
+    }
+
+ 
+
+    .title-line {
+        width: 60px;
+        height: 4px;
+        border-radius: 30px;
+        background: #a855f7;
+        margin-top: 8px;
+    }
+
+    .section-description {
+        color: #9ca3af;
+        max-width: 420px;
+        line-height: 1.8;
+    }
+
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: calc(.25rem * 2);
+    }
+
+    .tech-card {
+        max-height: 170px;
+        padding:8px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: .75rem;
+        background: rgba(255,255,255,.02);
+       /*  border: 1px solid rgba(168,85,247,.35); */
+        border: 1px solid var(--color-rgba);
+        transition: .35s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .tech-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+        /*     background: linear-gradient( 180deg, rgba(168,85,247,.10), transparent); */
+            background: linear-gradient( 180deg, var(--color-rgba), transparent);
+            opacity: 0;
+            transition: .35s;
+        }
+
+   /*  .tech-icon {
+        font-size: 32px;
+        transition: .35s;
+    } */
+    .tech-icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        transition: .35s;
+    }
+
+    .tech-name{
+        font-size:10px;
+        
+    }
+
+    .tech-card:hover {
+        transform: translateY(-10px) scale(1.04);
+      /*   border-color: #a855f7; */
+        border-color: var(--color-shadow);
+        box-shadow: 0 0 25px rgba(168,85,247,.25), inset 0 0 30px rgba(168,85,247,.08);
+    }
+
+        .tech-card:hover::before {
+            opacity: 1;
+        }
+
+        .tech-card:hover .tech-icon {
+            transform: translateY(-4px) scale(1.15) rotate(-5deg);
+        }
+
+        .tech-card:hover .mud-typography {
+            color: #fff;
+        }
+
+    .dots {
+        width: 70px;
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 8px;
+    }
+
+        .dots span {
+            width: 4px;
+            height: 4px;
+            background: #6d28d9;
+            border-radius: 50%;
+            opacity: .6;
+        }
+
+    @@media (max-width: 1200px) {
+        .tech-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @@media (max-width: 900px) {
+        .tech-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .tech-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 400px) {
+        .tech-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+@code {
+    private readonly List<TechStack> Frontend = new()
+    {
+        new() { Name = "Blazor",      Icon = "images/tech/blazor.svg",      Color = "#8B5CF6" },
+        new() { Name = "MudBlazor",   Icon = "images/tech/mudblazor.svg",         Color = "#3B82F6" },
+        new() { Name = "HTML5",       Icon = "images/tech/html.svg",           Color = "#F97316" },
+        new() { Name = "CSS3",        Icon = "images/tech/css.svg",            Color = "#3B82F6" },
+         new() { Name = "Bootstrap",        Icon = "images/tech/bootstrap.svg",  Color = "" },
+        new() { Name = "JavaScript",  Icon = "images/tech/javascript.svg",      Color = "#FACC15" }
+    };
+
+    private readonly List<TechStack> Backend = new()
+    {
+        new() { Name = ".NET Core",      Icon = "images/tech/netcore.svg",       Color = "#8B5CF6" },
+        new() { Name = "SignalR",  Icon = "images/tech/signalr.svg",       Color = "#3B82F6" },
+        new() { Name = "REST API",       Icon = "images/tech/restapi.svg",           Color = "#F97316" },
+        new() { Name = "Entity Framework",       Icon = "images/tech/efcore.svg",            Color = "#3B82F6" },
+        new() { Name = "JWT",  Icon = "images/tech/jwt-icon.svg",       Color = "#FACC15" }
+    };
+
+    private readonly List<TechStack> Database = new()
+    {
+        new() { Name = "PostgreSQL",    Icon = "images/tech/postgresql.svg",      Color = "#8B5CF6" },
+        new() { Name = "MySQL",    Icon = "images/tech/mysql.svg",         Color = "#3B82F6" },
+           new() { Name = "SQL Server",    Icon = "images/tech/sqlserver.svg",         Color = "#3B82F6" },
+    };
+
+    private readonly List<TechStack> Embedded = new()
+    {
+        new() { Name = "ESP32",       Icon = "images/tech/esp32.svg",       Color = "#8B5CF6" },
+        new() { Name = "Arduino",   Icon = "images/tech/arduino.svg",          Color = "#3B82F6" },
+        new() { Name = "YoloV5",       Icon = "images/tech/yolo2.svg",             Color = "#F97316" },
+        new() { Name = "Raspberry Pi",         Icon = "images/tech/raspberrypi.svg",             Color = "#3B82F6" },
+    };
+
+    private readonly List<TechStack> Tools = new()
+    {
+        new() { Name = "Visual Studio",       Icon = "images/tech/visual-studio.svg",      Color = "#8B5CF6" },
+        new() { Name = "VS Code",  Icon = "images/tech/visual-studio-code.svg",        Color = "#3B82F6" },
+        new() { Name = "Git",        Icon = "images/tech/git.svg",           Color = "#F97316" },
+        new() { Name = "GitHub",        Icon = "images/tech/github2.svg",            Color = "#3B82F6" },
+         new() { Name = "Postman",       Icon = "images/tech/postman.svg",  Color = "" },
+    };
+
+    private readonly List<TechStack> Native = new()
+    {
+        new() { Name = "Java",      Icon = "images/tech/java.svg",      Color = "" },
+        new() { Name = "Android Studio",   Icon = "images/tech/androidstudio.svg",        Color = "" },
+        new() { Name = "NetBeans",      Icon = "images/tech/netbeans.svg",         Color = "#F97316" },
+    };
+
+     protected override void OnInitialized()
+    {
+        GradientService.OnChange += Refresh;
+    }
+
+    private void Refresh()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        GradientService.OnChange -= Refresh;
+    }
+}

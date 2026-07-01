@@ -8,23 +8,45 @@
 
 <div class="hero-background"></div>
 
-<section id="home" class="hero-section">
-    <HeroSection />
-</section>
+<div class="main-section">
+    <section id="home" class="hero-section">
+        <HeroSection />
+    </section>
 
-<section id="about" class="section" style="padding-bottom:10%;">
-    <AboutSection/>
-</section>
+    <section id="about" class="about-section" style="padding-bottom:10%;">
+          <AboutSection/>
+    </section>
 
-<section id="portfolio" class="portfolio-section">
-    <PortfolioShowcaseSection/>
-</section>
+    <section id="portfolio" class="portfolio-section">
+         <PortfolioShowcaseSection/>
+    </section>
 
-<section id="contact" class="section contact-section">
-    <ContactSection />
-</section>
+    <section id="contact" class="contact-section">
+         <ContactSection />
+    </section>
+
+    <section id="footer" class="footer-section">
+        <FooterSection />
+    </section>
+</div>
+
+<MudScrollToTop>
+    <MudFab StartIcon="@Icons.Material.Filled.KeyboardArrowUp"
+            Style="@($"""
+                background:{GradientService.CurrentTheme.Background};
+                color:white;
+                box-shadow:0 0 20px {GradientService.CurrentTheme.ShadowRgba};
+            """)"
+            Size="Size.Medium" />
+</MudScrollToTop>
 
 <style>
+    .main-section{
+        margin-left:10%;
+        margin-right:10%;
+        overflow: hidden;
+    }
+
     .hero-section {
         display: flex;
         margin-top:7%;
@@ -39,18 +61,49 @@
         scroll-margin-top: 100px;
     }
 
-    .section {
-    scroll-margin-top: 100px;
+    .about-section{
+        scroll-margin-top: 100px;
     }
+
+
     .contact-section{
+        scroll-margin-top: 100px;
         margin-top: 30px;
+        min-height: 80vh;
     }
-   
+
+    .footer-section{
+        margin-bottom: 20px;
+    }
+    @@media (max-width:768px) {
+
+        .main-section {
+            margin:0;
+            padding-left:10px;
+            padding-right: 10px;
+        }
+
+        .about-section {
+       
+            margin-top: 30px;
+        }
+
+        .portfolio-section {
+            margin-top: 30px;
+        }
+
+       
+    }
 </style>
 
 @code {
 
     private DotNetObjectReference<Home>? _objRef;
+
+     protected override void OnInitialized()
+    {
+        GradientService.OnChange += Refresh;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -76,8 +129,14 @@
         NavigationService.SetActiveSection(sectionId);
     }
 
+    private void Refresh()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
     public async ValueTask DisposeAsync()
     {
         _objRef?.Dispose();
+        GradientService.OnChange -= Refresh;
     }
 }

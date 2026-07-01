@@ -78,38 +78,6 @@
     }
 }
 
-.custom-appbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(5, 8, 22, 0.45) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    z-index: 9999;
-}
-
-    .custom-appbar::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient( 90deg, rgba(139,92,246,.05), rgba(59,130,246,.05) );
-        pointer-events: none;
-    }
-
-.appbar-content {
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-
-
-
-
-
 
 
 .active-section {

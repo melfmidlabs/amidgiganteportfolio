@@ -1,8 +1,9 @@
 ﻿@using AmidPortfolio.Components.Cards
 @implements IDisposable
 
+<MudBreakpointProvider OnBreakpointChanged="BreakpointChanged" />
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" >
-    <MudStack AlignItems="AlignItems.Center" Style="padding-left:10%; padding-right:10%;">
+    <MudStack AlignItems="AlignItems.Center">
         <MudStack Class="mb-7" AlignItems="AlignItems.Center" Spacing="1" data-aos="fade-up"
              data-aos-duration="1000">
             <MudText Typo="Typo.h2"
@@ -21,69 +22,124 @@
             </MudText>
         </MudStack>
         
-        <MudPaper Class="portfolio-tabs-container mb-4" style="@($"--portfolio-tabs-container-bgrgba:{GradientService.CurrentTheme.BackgroundRgba};--portfolio-tabs-container-bg:{GradientService.CurrentTheme.Background};--portfolio-tabs-container-color:{GradientService.CurrentTheme.Color};--portfolio-tabs-container-shadow:{GradientService.CurrentTheme.ShadowRgba}")">
+        @if (_isMobile)
+        {
+            <MudGrid data-aos="fade-up"
+                     data-aos-duration="1200" Class="mb-4" style="@($"--portfolio-tabs-container-bgrgba:{GradientService.CurrentTheme.BackgroundRgba};--portfolio-tabs-container-bg:{GradientService.CurrentTheme.Background};--portfolio-tabs-container-color:{GradientService.CurrentTheme.Color};--portfolio-tabs-container-shadow:{GradientService.CurrentTheme.ShadowRgba}")">
 
-            <MudTabs Rounded="true"
-             Centered="false"
-             Elevation="0"
-             TabHeaderClass="portfolio-panel"
-                     TabPanelsClass="portfolio-tab-panel" @bind-ActivePanelIndex="activeIndex" KeepPanelsAlive="true">
+                <MudItem xs="6">
+                    <MudButton FullWidth="true" Class="@(activeIndex == 0 ? "mobile-tabs-active" : "mobile-tabs")"
+                               OnClick="() => activeIndex = 0">
+                        <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                            <MudIcon Icon="@Icons.Material.Outlined.Code" />
+                            <MudText>Projects</MudText>
+                        </MudStack>
+                    </MudButton>
+                </MudItem>
 
-            <MudTabPanel>
+                <MudItem xs="6">
+                    <MudButton FullWidth="true" 
+                               Class="@(activeIndex == 1 ? "mobile-tabs-active" : "mobile-tabs")"
+                               OnClick="() => activeIndex = 1">
+                        <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                            <MudIcon Icon="@Icons.Material.Outlined.WorkHistory" />
+                            <MudText>Experience</MudText>
+                        </MudStack>
+                    </MudButton>
+                </MudItem>
 
-                <TabContent>
-                    <MudStack AlignItems="AlignItems.Center" Spacing="0">
-                        <MudIcon Icon="@Icons.Material.Outlined.Code" />
-                        <MudText>Projects</MudText>
-                    </MudStack>
-                </TabContent>
+                <MudItem xs="6">
+                    <MudButton FullWidth="true"
+                               Class="@(activeIndex == 2 ? "mobile-tabs-active" : "mobile-tabs")"
+                               OnClick="() => activeIndex = 2">
+                        <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                            <MudIcon Icon="@Icons.Material.Outlined.WorkspacePremium" />
+                            <MudText>Certificates</MudText>
+                        </MudStack>
+                    </MudButton>
+                </MudItem>
 
-                @* Projects Content *@
-               
-            </MudTabPanel>
+                <MudItem xs="6">
+                    <MudButton FullWidth="true"
+                               Class="@(activeIndex == 3 ? "mobile-tabs-active" : "mobile-tabs")"
+                               OnClick="() => activeIndex = 3">
+                        <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                            <MudIcon Icon="@Icons.Material.Outlined.Memory" />
+                            <MudText>Tech Stack</MudText>
+                        </MudStack>
+                    </MudButton>
+                </MudItem>
 
-            <MudTabPanel>
+            </MudGrid>
+        }
+        else
+        {
+            <MudPaper Class="portfolio-tabs-container mb-4" style="@($"--portfolio-tabs-container-bgrgba:{GradientService.CurrentTheme.BackgroundRgba};--portfolio-tabs-container-bg:{GradientService.CurrentTheme.Background};--portfolio-tabs-container-color:{GradientService.CurrentTheme.Color};--portfolio-tabs-container-shadow:{GradientService.CurrentTheme.ShadowRgba}")">
 
-                <TabContent>
-                    <MudStack AlignItems="AlignItems.Center" Spacing="0">
-                        <MudIcon Icon="@Icons.Material.Outlined.WorkHistory" />
-                        <MudText>Experience</MudText>
-                    </MudStack>
-                </TabContent>
+                <MudTabs Rounded="true"
+                         Centered="false"
+                         Elevation="0"
+                         TabHeaderClass="portfolio-panel"
+                         TabPanelsClass="portfolio-tab-panel" @bind-ActivePanelIndex="activeIndex" KeepPanelsAlive="true">
 
-                @* Experience Content *@
+                    <MudTabPanel>
 
-            </MudTabPanel>
+                        <TabContent>
+                            <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                                <MudIcon Icon="@Icons.Material.Outlined.Code" />
+                                <MudText>Projects</MudText>
+                            </MudStack>
+                        </TabContent>
 
-            <MudTabPanel>
-        
-                <TabContent>
-                    <MudStack AlignItems="AlignItems.Center" Spacing="0">
-                        <MudIcon Icon="@Icons.Material.Outlined.WorkspacePremium" />
-                        <MudText>Certificates</MudText>
-                    </MudStack>
-                </TabContent>
+                        @* Projects Content *@
 
-                @* Certificates Content *@
+                    </MudTabPanel>
 
-            </MudTabPanel>
+                    <MudTabPanel>
 
-            <MudTabPanel>
+                        <TabContent>
+                            <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                                <MudIcon Icon="@Icons.Material.Outlined.WorkHistory" />
+                                <MudText>Experience</MudText>
+                            </MudStack>
+                        </TabContent>
 
-                <TabContent>
-                    <MudStack AlignItems="AlignItems.Center" Spacing="0">
-                        <MudIcon Icon="@Icons.Material.Outlined.Memory" />
-                        <MudText>Tech Stack</MudText>
-                    </MudStack>
-                </TabContent>
+                        @* Experience Content *@
 
-                @* Tech Stack Content *@
+                    </MudTabPanel>
 
-            </MudTabPanel>
+                    <MudTabPanel>
 
-    </MudTabs>
+                        <TabContent>
+                            <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                                <MudIcon Icon="@Icons.Material.Outlined.WorkspacePremium" />
+                                <MudText>Certificates</MudText>
+                            </MudStack>
+                        </TabContent>
 
-        </MudPaper>
+                        @* Certificates Content *@
+
+                    </MudTabPanel>
+
+                    <MudTabPanel>
+
+                        <TabContent>
+                            <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                                <MudIcon Icon="@Icons.Material.Outlined.Memory" />
+                                <MudText>Tech Stack</MudText>
+                            </MudStack>
+                        </TabContent>
+
+                        @* Tech Stack Content *@
+
+                    </MudTabPanel>
+
+                </MudTabs>
+
+            </MudPaper>
+        }
+
+       
 
         @if(activeIndex == 0)
         {
@@ -112,7 +168,7 @@
             <CertificateCard />
         }else if(activeIndex == 3)
         {
-            
+            <TechStackCard/>
         }
 
         <MudDivider class="portfolio-divider"/>
@@ -210,7 +266,7 @@
             }
 
             .portfolio-tabs-container .mud-tab .d-flex {
-                padding: 20px 0;
+                padding: 10px 0;
             }
 
             /*                 background: linear-gradient( 135deg, rgba(99,102,241,.25), rgba(168,85,247,.15) ); */
@@ -256,6 +312,25 @@
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
     }
 
+
+    /*Mobile*/
+    .mobile-tabs{
+        background: linear-gradient( 135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.90) );
+        border: 1px solid rgba(255,255,255,.08);
+        color: white !important;
+        box-shadow: 0 0 20px rgba(99,102,241,.15);
+        border-radius:8px;
+    }
+
+    .mobile-tabs-active{
+        background: var(--portfolio-tabs-container-bgrgba);
+        color: white !important;
+        border: 1px solid var(--portfolio-tabs-container-shadow);
+        box-shadow: 0 0 20px rgba(99,102,241,.15);
+        border-radius: 8px;
+    }
+
+
     @@media (prefers-reduced-motion: no-preference) {
         .see-more-button:hover, .see-more-button:focus-visible {
             transform: scale(1.1);
@@ -265,6 +340,7 @@
 
 @code
 {
+    private bool _isMobile;
     int activeIndex = 0;
     protected override void OnInitialized()
     {
@@ -273,6 +349,13 @@
     private void Refresh()
     {
         InvokeAsync(StateHasChanged);
+    }
+
+    private Task BreakpointChanged(Breakpoint breakpoint)
+    {
+        _isMobile = breakpoint <= Breakpoint.Sm;
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 
     public void Dispose()

@@ -1,7 +1,8 @@
 ﻿@implements IDisposable
 
+<MudBreakpointProvider OnBreakpointChanged="BreakpointChanged" />
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="" >
-    <MudStack AlignItems="AlignItems.Center" Style="padding-left:10%; padding-right:10%;">
+    <MudStack AlignItems="AlignItems.Center">
         <MudStack data-aos="zoom-in-up"
              data-aos-duration="600">
             <MudText Typo="Typo.h2"
@@ -34,7 +35,7 @@
 
         </MudText>
 
-        <MudStack Class="mt-6" Row>
+        <MudStack Class="mt-6" Row="@(_currentBreakpoint > Breakpoint.Sm)" Reverse="@_reverse">
 
             <MudButton Variant="Variant.Text"
                        Class="cv-button"
@@ -449,19 +450,26 @@
             border-color: var(--project-button-color) !important;
             box-shadow: 0 15px 35px color-mix(in srgb, var(--project-button-shadow) 55%, transparent), 0 0 45px color-mix(in srgb, var(--project-button-shadow) 35%, transparent), 0 0 70px color-mix(in srgb, var(--project-button-shadow) 20%, transparent);
         }
+
+
+
+    @@media (max-width:768px) {
+        .about-description {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1rem;
+            line-height: 2rem;
+            color: rgba(255,255,255,.75);
+            text-align: center;
+        }
+    }
 </style>
 
 @code {
 
-    //     private string ButtonColor =>
-    // GradientService.CurrentGradient switch
-    // {
-    //     "gradient-1" => "linear-gradient( 90deg, #6366f1, #a855f7 )",
-    //     "gradient-2" => "linear-gradient( 90deg, #22c55e, #14b8a6 )",
-    //     "gradient-3" => "linear-gradient( 90deg, #ff4d6d, #ec4899 )",
-    //     "gradient-4" => "linear-gradient( 90deg, #ff7b00, #ef4444 )",
-    //     _ => "linear-gradient( 90deg, #6366f1, #a855f7 )"
-    // };
+    private Breakpoint _currentBreakpoint;
+    private bool _row = false;
+    private bool _reverse = false;
     private string totalProjects = "10+";
     private string yearsOfCoding = "3+";
     private string techStacks = "10+";
@@ -480,6 +488,13 @@
     {
         await NavigationService.ScrollTo(id);
     }
+
+    private Task BreakpointChanged(Breakpoint breakpoint)
+{
+    _currentBreakpoint = breakpoint;
+    StateHasChanged();
+    return Task.CompletedTask;
+}
 
     public void Dispose()
     {

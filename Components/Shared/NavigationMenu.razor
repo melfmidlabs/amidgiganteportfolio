@@ -7,7 +7,7 @@
 
 <MudAppBar Elevation="0" Class="custom-appbar">
 
-    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+@*     <MudContainer MaxWidth="MaxWidth.ExtraLarge"> *@
 
         <div class="appbar-content">
 
@@ -15,36 +15,50 @@
                 Amid Gigante Jr.
             </MudText>
 
-            <div class="nav-links" style="@($"--menu-color:{GradientService.CurrentTheme.Color}")">
-                <MudButton Class="@GetClass("home")" OnClick="@(() => Go("home"))">
-                    Home
-                </MudButton>
+            <!-- Desktop View -->
+        <MudHidden Breakpoint="Breakpoint.MdAndDown">
+                <div class="nav-links" style="@($"--menu-color:{GradientService.CurrentTheme.Color}")">
+                    <MudButton Class="@GetClass("home")" OnClick="@(() => Go("home"))">
+                        Home
+                    </MudButton>
 
-                <MudButton Class="@GetClass("about")" OnClick="@(() => Go("about"))">
-                    About
-                </MudButton>
+                    <MudButton Class="@GetClass("about")" OnClick="@(() => Go("about"))">
+                        About
+                    </MudButton>
 
-                <MudButton Class="@GetClass("portfolio")" OnClick="@(() => Go("portfolio"))">
-                    Portfolio
-                </MudButton>
+                    <MudButton Class="@GetClass("portfolio")" OnClick="@(() => Go("portfolio"))">
+                        Portfolio
+                    </MudButton>
 
 
-                <MudButton Class="@GetClass("contact")" OnClick="@(() => Go("contact"))">
-                    Contact
-                </MudButton>
+                    <MudButton Class="@GetClass("contact")" OnClick="@(() => Go("contact"))">
+                        Contact
+                    </MudButton>
 
-              @*   <MudIconButton Icon="@(ThemeService.IsDarkMode
+                    @*   <MudIconButton Icon="@(ThemeService.IsDarkMode
                                                       ? Icons.Material.Filled.LightMode
                                               : Icons.Material.Filled.DarkMode)"
                                Color="Color.Inherit"
                                OnClick="ToggleTheme" /> *@
-            </div>
+                </div>
+        </MudHidden>
+
+            <!-- Mobile View -->
+            <MudHidden Breakpoint="Breakpoint.LgAndUp">
+
+                <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                               Color="Color.Inherit"
+                               OnClick="ToggleDrawer" />
+
+            </MudHidden>
+
 
         </div>
 
-    </MudContainer>
-
+@*     </MudContainer>
+ *@
 </MudAppBar>
+
 
 <style>
     .logo-text {
@@ -87,7 +101,7 @@
     //     "gradient-4" => "#F59E0B",
     //     _ => "#8B5CF6"
     // };
-
+    private bool _drawerOpen = false;
     private void ToggleTheme()
     {
         ThemeService.ToggleTheme();
@@ -114,6 +128,12 @@
         return NavigationService.ActiveSection == section
             ? "active-nav"
             : "";
+    }
+
+
+     private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
     }
 
     private void HandleSectionChanged(string section)
