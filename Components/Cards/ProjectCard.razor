@@ -1,346 +1,83 @@
 ﻿@using AmidPortfolio.Models
 @implements IDisposable
 
-<MudOverlay Visible="@showVideo" Style="backdrop-filter: blur(10px); z-index:9999;background-color: rgba(0, 0, 0, 0.9);"
+<MudOverlay Visible="@showProjectDetails" class="show-project-overlay"
             DarkBackground="true"
             AutoClose="false" >
 
-    <div class="video-viewer">
+    <ViewProjectDetails OnClose="CloseProjectDetails" ProjectId="SelectedProjectId" />
 
-        <MudIconButton Icon="@Icons.Material.Filled.Close"
-                       Class="video-close-btn"
-                       OnClick="@(() => showVideo = false)" />
-
-        <video controls
-               autoplay
-               class="demo-video">
-
-            <source src="@SelectedVideoUrl"
-                    type="video/mp4">
-
-        </video>
-
-    </div>
 
 </MudOverlay>
 
+<FeatureProjectCard/>
+
 <MudGrid Class="">
+ 
 
-    @for (int count = 0; count < ProjectsModel.Count; count++)
+    @foreach (var project in ProjectsToDisplay)
     {
-        var project = ProjectsModel[count];
+        <MudItem xs="12" md="6" lg="4">
 
-        if(count == 0)
-        {
-            <MudItem xs="12" md="6" lg="4">
-                <MudPaper @onclick="@(() => Snackbar.Add("Under development. Feature will add soon.", Severity.Info))"
-                    Class="project-card-portfolio" style="@($"--project-card-portfolio-shadow:{GradientService.CurrentTheme.ShadowRgba}; --project-card-portfolio-color:{GradientService.CurrentTheme.Color}")"
-                          data-aos="fade-up-right"
-                          data-aos-duration="1000">
+            <MudPaper @onclick="@(() => OpenProjectDetails(project.Id))"
+                      Class="project-card-portfolio"
+                      style="@($"--project-card-portfolio-shadow:{GradientService.CurrentTheme.ShadowRgba}; --project-card-portfolio-color:{GradientService.CurrentTheme.Color}")"
+                      data-aos="fade-up"
+                      data-aos-duration="1000">
 
-                    <div class="stats-gradient"></div>
+                <div class="stats-gradient"></div>
 
-                    <div class="project-image-container">
+                <div class="project-image-container">
 
-                        <MudPaper Class="project-badge" Elevation="0">
-
-                            <MudText Class="project-badge-text">
-                                02
-                            </MudText>
-                        </MudPaper>
-
-                        <MudPaper Class="project-arrow" Elevation="0">
-
-                            <MudIcon Icon="@Icons.Material.Rounded.ArrowOutward"
-                                     Class="project-arrow-icon" />
-
-                        </MudPaper>
-                        <MudImage Src="@project.ImageUrl"
-                                  Alt="@project.Title"
-                                  Class="project-image" />
-
-                    </div>
-
-                    <div class="project-content">
-
-                        <MudText Typo="Typo.h5"
-                                 Class="project-title-gradient">
-                            @project.Title
+                    <MudPaper Class="project-badge" Elevation="0">
+                        <MudText Class="project-badge-text">
+                            @project.Number
                         </MudText>
+                    </MudPaper>
 
-                        <MudText Typo="Typo.body2"
-                                 Class="project-description">
-                            @project.Description
-                        </MudText>
+                    <MudPaper Class="project-arrow" Elevation="0">
+                        <MudIcon Icon="@Icons.Material.Rounded.ArrowOutward"
+                                 Class="project-arrow-icon" />
+                    </MudPaper>
 
-                        <MudDivider class="mb-4"/>
+                    <MudImage Src="@project.ImageUrl"
+                              Alt="@project.Title"
+                              Class="project-image" />
 
-                        <MudStack Row
-                                  Wrap="Wrap.Wrap"
-                                  Spacing="1">
+                </div>
 
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-csharp-plain colored me-2" ></i>
-                                C#
+                <div class="project-content">
 
+                    <MudText Typo="Typo.h5"
+                             Class="project-title-gradient">
+                        @project.Title
+                    </MudText>
+
+                    <MudText Typo="Typo.body2"
+                             Class="project-description">
+                        @project.Description
+                    </MudText>
+
+                    <MudDivider Class="mb-4" />
+
+                    <MudStack Row Wrap="Wrap.Wrap" Spacing="1">
+
+                        @foreach (var tech in project.Technologies)
+                        {
+                            <MudChip T="string"
+                                     Variant="Variant.Outlined"
+                                     Size="Size.Small">
+                                @tech
                             </MudChip>
+                        }
 
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-blazor-original colored me-2" ></i>
-                                Blazor
-                            </MudChip>
+                    </MudStack>
 
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Primary"
-                                         Class="me-2" />
-                                MudBlazor
-                            </MudChip>
+                </div>
 
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-postgresql-plain colored me-2"></i>
-                                PostgreSQL
-                            </MudChip>
-                        </MudStack>
-                        @* <div class="project-footer">
+            </MudPaper>
 
-                            <MudLink OnClick="() => OpenDemoVideo(project.LiveDemoUrl)"
-                                     Class="project-link">
-
-                                Watch Demo
-
-                                <MudIcon Icon="@Icons.Material.Filled.OpenInNew"
-                                         Size="Size.Small" />
-
-                            </MudLink>
-
-                            <MudButton Variant="Variant.Text"
-                                       EndIcon="@Icons.Material.Filled.ArrowForward"
-                                       Class="project-button">
-
-                                Details
-
-                            </MudButton>
-
-                        </div> *@
-
-                    </div>
-
-                </MudPaper>
-            </MudItem>
-        }else if(count == 1)
-        {
-            <MudItem xs="12" md="6" lg="4">
-                <MudPaper @onclick="@(() => Snackbar.Add("Under development. Feature will add soon.", Severity.Info))" Class="project-card-portfolio" style="@($"--project-card-portfolio-shadow:{GradientService.CurrentTheme.ShadowRgba}")"
-                          data-aos="fade-up"
-                          data-aos-duration="1200">
-
-                    <div class="project-image-container">
-
-                          <MudPaper Class="project-badge" Elevation="0">
-
-                            <MudText Class="project-badge-text">
-                                03
-                            </MudText>
-
-                        </MudPaper>
-                        <MudPaper Class="project-arrow" Elevation="0">
-
-                            <MudIcon Icon="@Icons.Material.Rounded.ArrowOutward"
-                                     Class="project-arrow-icon" />
-
-                        </MudPaper>
-                        <MudImage Src="@project.ImageUrl"
-                                  Alt="@project.Title"
-                                  Class="project-image" />
-
-                    </div>
-
-                    <div class="project-content">
-
-                        <MudText Typo="Typo.h5"
-                                 Class="project-title-gradient">
-                            @project.Title
-                        </MudText>
-
-                        <MudText Typo="Typo.body2"
-                                 Class="project-description">
-                            @project.Description
-                        </MudText>
-
-                                                <MudDivider class="mb-4"/>
-
-                        <MudStack Row
-                                  Wrap="Wrap.Wrap"
-                                  Spacing="1">
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-csharp-plain colored me-2"></i>
-                                C#
-
-                            </MudChip>
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-blazor-original colored me-2" ></i>
-                                Blazor
-                            </MudChip>
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Primary"
-                                         Class="me-2" />
-                                MudBlazor
-                            </MudChip>
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-cplusplus-plain colored me-2" ></i>
-                                C++
-                            </MudChip>
-
-                             <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-arduino-plain colored me-2"></i>
-                                Arduino
-                            </MudChip>
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <MudIcon Icon="@Icons.Material.Filled.Code" Color="Color.Primary"
-                                         Class="me-2" />
-                                ESP32
-                            </MudChip>
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                 <MudIcon Icon="@Icons.Material.Filled.Code" Color="Color.Primary"
-                                         Class="me-2" />
-                                Edge Impulse
-                            </MudChip>
-
-                              <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                               <i class="devicon-postgresql-plain colored me-2"></i>
-                                PostgreSQL
-                            </MudChip>
-
-                        </MudStack>
-
-                       @*  <div class="project-footer">
-
-                            <MudLink Href="@project.LiveDemoUrl"
-                                     Target="_blank"
-                                     Class="project-link">
-
-                                Watch Demo
-
-                                <MudIcon Icon="@Icons.Material.Filled.OpenInNew"
-                                         Size="Size.Small" />
-
-                            </MudLink>
-
-                            <MudButton Variant="Variant.Text"
-                                       EndIcon="@Icons.Material.Filled.ArrowForward"
-                                       Class="project-button">
-
-                                Details
-
-                            </MudButton>
-
-                        </div> *@
-
-                    </div>
-
-                </MudPaper>
-            </MudItem>
-        }else if(count == 2)
-        {
-            <MudItem xs="12" md="6" lg="4">
-                <MudPaper @onclick="@(() => Snackbar.Add("Under development. Feature will add soon.", Severity.Info))"
-                    Class="project-card-portfolio" style="@($"--project-card-portfolio-shadow:{GradientService.CurrentTheme.ShadowRgba}")"
-                          data-aos="fade-up-left"
-                          data-aos-duration="1000">
-
-                    <div class="project-image-container">
-
-                          <MudPaper Class="project-badge" Elevation="0">
-
-                            <MudText Class="project-badge-text">
-                                04
-                            </MudText>
-
-                        </MudPaper>
-                        <MudPaper Class="project-arrow" Elevation="0">
-
-                            <MudIcon Icon="@Icons.Material.Rounded.ArrowOutward"
-                                     Class="project-arrow-icon" />
-
-                        </MudPaper>
-                        <MudImage Src="@project.ImageUrl"
-                                  Alt="@project.Title"
-                                  Class="project-image" />
-
-                    </div>
-
-                    <div class="project-content">
-
-                        <MudText Typo="Typo.h5"
-                                 Class="project-title-gradient">
-                            @project.Title
-                        </MudText>
-
-                        <MudText Typo="Typo.body2"
-                                 Class="project-description">
-                            @project.Description
-                        </MudText>
-
-                                                <MudDivider class="mb-4"/>
-
-                        <MudStack Row
-                                  Wrap="Wrap.Wrap"
-                                  Spacing="1">
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-cplusplus-plain colored me-2"></i>
-                                C++
-                            </MudChip>
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <i class="devicon-arduino-plain colored me-2"></i>
-                                Arduino
-                            </MudChip>
-
-                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
-                                <MudIcon Icon="@Icons.Material.Filled.Code" Color="Color.Primary"
-                                         Class="me-2" />
-                                ESP32
-                            </MudChip>
-
-
-                        </MudStack>
-
-                       @*  <div class="project-footer">
-
-                            <MudLink Href="@project.LiveDemoUrl"
-                                     Target="_blank"
-                                     Class="project-link">
-
-                                Watch Demo
-
-                                <MudIcon Icon="@Icons.Material.Filled.OpenInNew"
-                                         Size="Size.Small" />
-
-                            </MudLink>
-
-                            <MudButton Variant="Variant.Text"
-                                       EndIcon="@Icons.Material.Filled.ArrowForward"
-                                       Class="project-button">
-
-                                Details
-
-                            </MudButton>
-
-                        </div> *@
-
-                    </div>
-
-                </MudPaper>
-            </MudItem>
-        }
-       
+        </MudItem>
     }
 
 </MudGrid>
@@ -348,6 +85,11 @@
 
 
 <style>
+    .show-project-overlay{
+        backdrop-filter: blur(16px); 
+        z-index:9999;
+    }
+
     .project-card-portfolio {
         background: rgba(17, 24, 39, 0.50);
         backdrop-filter: blur(16px);
@@ -356,7 +98,6 @@
         overflow: hidden;
         height: 100%;
         transition: all .35s ease;
-        backdrop-filter: blur(16px);
         cursor: pointer;
     }
 
@@ -553,50 +294,40 @@
 @code {
     int count = 0;
 
-    private bool showVideo;
-    private string SelectedVideoUrl = "";
+    private bool showProjectDetails;
+    private int SelectedProjectId;
 
-    private List<ProjectModel> ProjectsModel = new()
+    private List<ProjectModel> ProjectsModel = new();
+    private ProjectModel? CurrentProject;
+    private IEnumerable<ProjectModel> ProjectsToDisplay =>
+    ProjectsModel
+        .Where(p => !p.Featured)
+        .Take(3);
+
+
+    private void OpenProjectDetails(int index)
     {
-        new()
-        {
-            Title = "NEXUS – Centralized Inventory & Project Management System",
-            Description = "A centralized enterprise platform for inventory, part ordering, receiving, barcode and QR code scanning, project tracking, dashboards, and reporting. Built with ASP.NET Core Blazor Server and MudBlazor to modernize legacy workflows and improve operational efficiency.",
-            ImageUrl = "images/projects/nexus-dashboard.png",
-            Technologies = "C#, Blazor, MudBlazor",
-            GitHubUrl = "",
-            LiveDemoUrl = "videos/rvm.mp4",
-        },
-
-        new()
-        {
-            Title = "AutoBin - Smart Reverse Vending Machine System(AI-Powered)",
-            Description = "A full-stack AI-powered recycling platform that integrates embedded systems, computer vision, and a Blazor web application to automate bottle recycling, reward users, and provide real-time monitoring and analytics.",
-            ImageUrl = "images/projects/autobin.png",
-            Technologies = ".NET, Blazor",
-            GitHubUrl = ""
-        },
-
-        new()
-        {
-            Title = "Reverse Vending Machine (ESP32-Based)",
-            Description = "An ESP32-based smart recycling machine that validates recyclable bottles and cans, automates reward dispensing, and monitors waste capacity and water levels to support efficient, sustainable recycling.",
-            ImageUrl = "images/projects/rvm-esp32.png",
-            Technologies = "Blazor, SQL Server",
-            GitHubUrl = ""
-        }
-    };
-
-    private void OpenDemoVideo(string videoUrl)
-    {
-        SelectedVideoUrl = videoUrl;
-        showVideo = true;
+        SelectedProjectId = index;
+        showProjectDetails = true;
     }
 
-        protected override void OnInitialized()
-        {
-            GradientService.OnChange += Refresh;
-        }
+    private void CloseProjectDetails()
+    {
+        showProjectDetails = false;
+       
+    }
+
+    protected override void OnInitialized()
+    {
+        GradientService.OnChange += Refresh;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ProjectsModel = await Http.GetFromJsonAsync<List<ProjectModel>>("data/projects.json")
+                    ?? new();
+
+    }
 
         private void Refresh()
         {

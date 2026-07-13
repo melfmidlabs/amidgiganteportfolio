@@ -1,0 +1,652 @@
+﻿@implements IDisposable
+
+
+
+<MudContainer MaxWidth="MaxWidth.Large" Class=" project-details-container" Gutters="false" Style="@($"--border-color:{GradientService.CurrentTheme.Color};--color-shadow:{GradientService.CurrentTheme.ShadowRgba};")">
+
+    <MudIconButton Icon="@Icons.Material.Filled.Close"
+                 
+                   Color="Color.Default"
+                   Class="close-btn"
+                   OnClick="Close" />
+
+
+
+            @if (CurrentProject is null)
+            {
+                 <div class="loading-container">
+                    <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Large" />
+                </div>
+
+               
+            }
+            else
+            {
+       
+
+             <div class="project-layout">
+                <MudPaper Class="image-section">
+
+                    <div class="image-viewer">
+                         <div class="image-wrapper">
+
+                        <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft"
+                                       OnClick="PreviousImage" Size="Size.Small"
+                                       Class="nav-btn left" />
+
+                        <img src="@CurrentImage"
+                             alt="@CurrentProject.Title"
+                             class="main-image" @onclick="() => OpenImage(CurrentImage)" />
+
+                        <MudIconButton Icon="@Icons.Material.Filled.ChevronRight"
+                                       OnClick="NextImage" Size="Size.Small"
+                                       Class="nav-btn right" /> 
+
+                     </div>
+                    </div>
+                   
+                <div class="d-flex justify-end flex-grow-1">
+                    <MudChip T="string" Label="true" Size="Size.Small">@($"{selectedImage + 1}/{CurrentProject.Images.Count}")</MudChip>
+                    </div>
+
+                    <MudStack Row="true"
+                              Spacing="2"
+                              Class="thumbnail-container">
+
+                        @for (int i = 0; i < CurrentProject.Images.Count; i++)
+                        {
+                            int index = i;
+
+                            <MudPaper Class="@GetThumbClass(index)"
+                                      @onclick="@(() => SelectImage(index))">
+
+                                <img src="@CurrentProject.Images[index]"
+                                     alt="@($"{CurrentProject.Title} {index + 1}")"
+                                     class="thumb-image" />
+
+                            </MudPaper>
+                        }
+
+                    </MudStack>
+
+                </MudPaper>
+
+  
+
+
+                <MudPaper Class="project-info pa-6">
+
+                    <MudStack  Row=true Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <MudText Typo="Typo.overline" class="project-number">
+                            PROJECT • @CurrentProject.Number
+                        </MudText>
+
+                      
+                       <div class="nav-buttons">
+                            <div class="nav-btns">
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowBackIosNew" Size="Size.Small" @onclick="PreviousProject"/>
+                            </div>
+
+                            <div class="nav-btns">
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForwardIos" Size="Size.Small" @onclick="NextProject"/>
+                            </div>
+                        </div>
+
+
+                       
+                    </MudStack>
+                   
+
+                    <MudText Typo="Typo.h3" Class="mt-2 mb-2" style="font-size:1.875rem;">
+                        @CurrentProject.Title
+                    </MudText>
+
+                    @if (!string.IsNullOrWhiteSpace(CurrentProject.Category))
+                    {
+                        <MudChip T=string Color="Color.Primary"
+                                 Variant="Variant.Outlined"
+                                 Class="mb-3">
+                            @CurrentProject.Category
+                        </MudChip>
+                    }
+
+                    <MudText Typo="Typo.body1" class="project-description">
+                        @CurrentProject.Description
+                    </MudText>
+
+                    <MudDivider Class="my-5" />
+
+                    <MudText Typo="Typo.caption">
+                        BUILT WITH
+                    </MudText>
+
+                    <MudStack Row="true"
+                              Wrap="Wrap.Wrap"
+                              Spacing="1"
+                              Class="mt-2">
+
+                        @foreach (var tech in CurrentProject.Technologies)
+                        {
+               
+                        <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
+                            <AvatarContent>
+                                <MudAvatar>
+                                    <MudImage Src="@($"images/tech/{tech}.svg")"></MudImage>
+                                </MudAvatar>
+                            </AvatarContent>
+                            <ChildContent>@tech</ChildContent>
+                        </MudChip>
+                        }
+
+                    </MudStack>
+
+                    <MudDivider Class="my-5" />
+
+                    <MudStack Row="true" Spacing="2">
+
+                        @if (!string.IsNullOrWhiteSpace(CurrentProject.LiveUrl))
+                        {
+                            <MudButton Variant="Variant.Filled"
+                                       Color="Color.Warning"
+                                       StartIcon="@Icons.Material.Filled.OpenInNew"
+                                       Href="@CurrentProject.LiveUrl"
+                                       Target="_blank">
+
+                                Visit Live
+
+                            </MudButton>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(CurrentProject.GithubUrl))
+                        {
+                            <MudButton Variant="Variant.Outlined"
+                                       StartIcon="@Icons.Custom.Brands.GitHub"
+                                       Href="@CurrentProject.GithubUrl"
+                                       Target="_blank">
+
+                                Source
+
+                            </MudButton>
+                        }
+
+                    </MudStack>
+
+                </MudPaper>
+
+        </div>
+        }
+ 
+</MudContainer>
+
+<MudOverlay Visible="@_showImageOverlay"
+            DarkBackground="true"
+            AutoClose="true"
+            OnClosed="CloseImage"
+            Class="image-overlay">
+
+    <MudIconButton Icon="@Icons.Material.Filled.Close"
+                   Color="Color.Default"
+                   Size="Size.Small"
+                   OnClick="CloseImage"
+                   Class="overlay-close" />
+
+    <img src="@_selectedImage"
+         class="overlay-image"
+         alt="Project Image" />
+
+</MudOverlay>
+
+<style>
+    .loading-container {
+        width: min(1400px, 95vw);
+        height: 100%;
+        min-height: 80vh; /* or calc(80vh - padding) */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .project-details-container {
+        position: relative;
+      
+        backdrop-filter: blur(16px);
+        border: 1px solid var(--color-shadow);
+        box-shadow: 0 20px 40px var(--color-shadow);
+        border-radius: 24px;
+        height: 80vh;
+    }
+
+.project-layout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+        width: 100%;
+        height: 100%;
+}
+        .close-btn {
+            position: absolute;
+            top: 26px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0,0,0,.55);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 50%;
+            transition: .25s;
+            width:32px;
+            height:32px;
+        }
+
+            .close-btn:hover {
+                transform: rotate(90deg);
+            }
+
+.image-section{
+background:oklch(20.5% 0 0);
+    display:flex;
+    flex-direction:column;
+        height: 100%;
+        overflow: hidden;
+}
+
+
+  .image-viewer{
+    display:flex;
+    flex-direction:column;
+        height: 100%;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+}
+
+    .image-wrapper {
+       position: relative;  
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+
+    .main-image{
+        width:100%;
+        height:100%;
+        object-fit:contain;
+        cursor: zoom-in;
+    }
+
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+          background: rgba(20, 20, 20, 0.9);
+        color: white;
+          transition: transform 0.25s ease,
+                background-color 0.25s ease,
+                box-shadow 0.25s ease;
+    }
+
+    .left {
+        left: 20px;
+    }
+
+    .right {
+        right: 20px;
+    }
+
+
+    .nav-btn:hover{
+              
+              background: rgba(35, 35, 35, 0.95);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .thumbnail-container {
+        padding: 15px;
+        flex-shrink: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        scrollbar-width: thin; /* Firefox */
+    }
+
+        .thumbnail-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .thumbnail-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,.3);
+            border-radius: 10px;
+        }
+
+        .thumbnail-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+    .thumb {
+        min-width: 110px;
+        width: 110px;
+        height: 70px;
+        overflow: hidden;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: .3s;
+        border: 2px solid transparent;
+        position: relative;
+    }
+
+    /* Dark transparent overlay */
+.thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    transition: background 0.2s ease;
+    pointer-events: none;
+}
+
+/* Active thumbnail */
+.thumb.active::after {
+    background: transparent;
+}
+
+        .thumb:hover::after {
+            background: transparent;
+        }
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumb:hover {
+            transform: scale(1.05);
+            background: transparent;
+        }
+
+    .active {
+        border: 2px solid var(--border-color);
+    }
+
+    /**/
+    .project-info {
+        background: rgba(17, 24, 39, 0.50);
+        backdrop-filter: blur(16px);
+        color: white;
+        height: 100%;
+       
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: .5rem;
+        margin-right:40px;
+    }
+
+    .nav-btns {
+        width: 24px;
+        height: 24px;
+        border: 1px solid var(--mud-palette-lines-default);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .2s ease;
+        user-select: none;
+    }
+
+        .nav-btns:hover {
+            background: var(--mud-palette-action-default-hover);
+            transform: scale(1.08);
+        }
+
+        .nav-btns:active {
+            transform: scale(.95);
+        }
+
+        .nav-btns .mud-icon-root {
+            font-size: 14px;
+        }
+
+    .project-number{
+        color: var(--border-color);
+    }
+
+/**/
+.image-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    z-index: 2000;
+}
+
+.overlay-image {
+    max-width: 95vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+}
+
+.overlay-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2001;
+        background: rgba(0,0,0,.55);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 50%;
+        transition: .25s;
+}
+        .overlay-close:hover {
+                transform: rotate(90deg);
+            }
+
+@@media (max-width: 960px) {
+
+    .project-details-container {
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding-top:20px;
+    }
+
+    .project-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        gap: 16px;
+        height: auto;
+    }
+
+    .image-section {
+        width: 100%;
+        height: auto;
+    }
+
+    .image-viewer {
+        height: auto;
+    }
+
+    .image-wrapper {
+        height: 260px; /* Adjust as needed */
+    }
+
+    .main-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .thumbnail-container {
+        padding: 10px;
+        justify-content: flex-start;
+        overflow-x: auto;
+    }
+
+    .thumb {
+        min-width: 80px;
+        width: 80px;
+        height: 60px;
+    }
+
+    .project-info {
+        margin-top: 0;
+        height: auto;
+        padding: 20px !important;
+    }
+
+    .project-info h3,
+    .project-info .mud-typography-h3 {
+        font-size: 1.5rem !important;
+    }
+
+    .project-description{
+        font-size:.875rem;
+    }
+
+        .nav-buttons {
+            display: flex;
+            gap: .5rem;
+            margin-right: 10px;
+        }
+}
+</style>
+@code {
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+    [Parameter]
+    public int ProjectId { get; set; }
+
+    private List<ProjectModel> Projects = new();
+
+    private ProjectModel? CurrentProject;
+
+    private int selectedProject = 0;
+    private int selectedImage = 0;
+
+    private bool _showImageOverlay;
+    private string? _selectedImage;
+
+    private string GetThumbClass(int index)
+        => selectedImage == index
+            ? "thumb active"
+            : "thumb";
+
+    private string CurrentImage =>
+      CurrentProject?.Images[selectedImage] ?? "";
+
+    protected override void OnInitialized()
+    {
+        GradientService.OnChange += Refresh;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadProject();
+    }
+
+    private async Task LoadProject()
+    {
+
+        if (!Projects.Any())
+        {
+
+            Projects = await Http.GetFromJsonAsync<List<ProjectModel>>("data/projects.json") ?? new();
+        }
+
+        CurrentProject = Projects.FirstOrDefault(p => p.Id == ProjectId);        
+    }
+
+
+    private void NextImage()
+    {
+        if (CurrentProject == null)
+            return;
+
+        selectedImage++;
+
+        if (selectedImage >= CurrentProject.Images.Count)
+            selectedImage = 0;
+    }
+
+    private void PreviousImage()
+    {
+        if (CurrentProject == null)
+            return;
+
+        selectedImage--;
+
+        if (selectedImage < 0)
+            selectedImage = CurrentProject.Images.Count - 1;
+    }
+
+    private void SelectImage(int index)
+    {
+        selectedImage = index;
+    }
+
+    private void SelectProject(int index)
+    {
+        selectedProject = index;
+        CurrentProject = Projects[index];
+
+        // Reset to the first image of the newly selected project
+        selectedImage = 0;
+    }
+
+    private void OpenImage(string image)
+    {
+        _selectedImage = image;
+        _showImageOverlay = true;
+    }
+
+    private void CloseImage()
+    {
+        _showImageOverlay = false;
+    }
+
+    private async Task Close()
+    {
+        await OnClose.InvokeAsync();
+    }
+
+
+
+    private void Refresh()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+
+    public void Dispose()
+    {
+        GradientService.OnChange -= Refresh;
+    }
+
+    private async Task PreviousProject()
+    {
+        if (ProjectId == 1) return;
+
+        ProjectId--;
+        selectedImage = 0;
+        await LoadProject();
+        //StateHasChanged();
+    }
+    private async Task NextProject()
+    {
+        if (ProjectId == Projects.Count)
+            return;
+
+        ProjectId++;
+        selectedImage = 0;
+        await LoadProject();
+        //StateHasChanged();
+    }
+}

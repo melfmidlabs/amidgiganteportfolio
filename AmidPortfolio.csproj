@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="docs\" />
-    <Folder Include="NewFolder\" />
     <Folder Include="wwwroot\documents\" />
     <Folder Include="wwwroot\images\tech\" />
   </ItemGroup>
