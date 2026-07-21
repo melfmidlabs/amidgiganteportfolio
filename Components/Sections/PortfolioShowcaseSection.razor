@@ -145,20 +145,7 @@
         {
             
             <ProjectCard/>
-            <MudStack  style="width:100%; margin-top:10px;" AlignItems="AlignItems.Start">
-             @*    <MudButton class="ml-2 see-more-button" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.ArrowDownward">
-                    <MudText>See More</MudText>
-                </MudButton> *@
-                <MudButton onclick="@(() => Snackbar.Add("Under development. Feature will add soon.", Severity.Info))"
-                           EndIcon="@Icons.Material.Filled.ArrowDownward"
-                           Variant="Variant.Outlined"
-                           Class="see-more-button ml-3 rounded-lg" Size="Size.Small"
-                           Style="@($"--see-more-button-color:{GradientService.CurrentTheme.Color}; --project-button-shadow:{GradientService.CurrentTheme.Shadow};")">
-
-                   See More
-
-                </MudButton>
-            </MudStack>
+           
         
         }else if(activeIndex == 1)
         {

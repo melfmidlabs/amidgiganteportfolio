@@ -4,110 +4,113 @@
           data-aos-duration="1000">
 
     <MudGrid Spacing="4">
+        @if(FeaturedProject == null)
+        {
+             <MudItem xs="12" lg="12">
+                <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Medium" />
+             </MudItem>
+        }
+        else
+        {
+            <!-- LEFT -->
+            <MudItem xs="12" lg="7">
 
-        <!-- LEFT -->
-        <MudItem xs="12" lg="7">
-
-            <div class="featured-image-wrapper">
+                <div class="featured-image-wrapper">
 
 
-                <MudButton Class="featured-chip rounded-lg" Variant="Variant.Filled" Color="Color.Surface"  StartIcon="@Icons.Material.Filled.Star">Featured</MudButton>
+                    <MudButton Class="featured-chip rounded-lg" Variant="Variant.Filled" Color="Color.Surface" StartIcon="@Icons.Material.Filled.Star">Featured</MudButton>
 
-                <MudImage Src="images/projects/portfolio-hero.png"
-                          Class="featured-image" />
+                    <MudImage Src="@FeaturedProject.ImageUrl"
+                              Class="featured-image" />
 
-            </div>
+                </div>
 
-        </MudItem>
+            </MudItem>
 
-        <!-- RIGHT -->
+            <!-- RIGHT -->
 
-        <MudItem xs="12" lg="5">
+            <MudItem xs="12" lg="5">
 
-            <MudStack Class="featured-content">
+                <MudStack Class="featured-content">
 
-                <MudStack Row AlignItems="AlignItems.Center">
+                    <MudStack Row AlignItems="AlignItems.Center">
 
-                    <MudText Class="featured-number">
-                        01
+                        <MudText Class="featured-number">
+                            01
+                        </MudText>
+
+                        <MudDivider Vertical="false"
+                                    Class="featured-line" />
+
+                        <MudText Class="featured-label">
+                            FEATURED WORK
+                        </MudText>
+
+                    </MudStack>
+
+                    <MudText Typo="Typo.h2"
+                             Class="featured-title">
+
+                        Amid's
+                        <br />
+                        Portfolio
+
                     </MudText>
 
-                    <MudDivider Vertical="false"
-                                Class="featured-line" />
-
-                    <MudText Class="featured-label">
-                        FEATURED WORK
+                    <MudText Class="featured-description">
+                        @FeaturedProject.Description
                     </MudText>
 
-                </MudStack>
+                    <MudStack Row
+                              Wrap="Wrap.Wrap"
+                              Spacing="1">
 
-                <MudText Typo="Typo.h2"
-                         Class="featured-title">
-
-                   Amid's
-                    <br />
-                   Portfolio
-
-                </MudText>
-
-                <MudText Class="featured-description">
-
-                    A modern portfolio showcasing my projects, technical skills, certifications, and professional experience. Designed to reflect my passion for software development and creating impactful digital experiences.
-                </MudText>
-
-                <MudStack Row
-                          Wrap="Wrap.Wrap"
-                          Spacing="1">
-
-                    <MudChip T="string" Variant="Variant.Outlined">
-                        <i class="devicon-csharp-plain colored me-2" style="font-size:24px;"></i>
-                        C#
-                    </MudChip>
-
-                    <MudChip T="string" Variant="Variant.Outlined">
-                        <i class="devicon-blazor-original colored me-2" style="font-size:24px;"></i>
-                        Blazor
-                    </MudChip>
-
-                    <MudChip T="string" Variant="Variant.Outlined">
-                        <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Primary"
-                                 Class="me-2" />
-                        MudBlazor
-                    </MudChip>
+                        @foreach (var tech in FeaturedProject.Technologies)
+                        {
+                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
+                                <AvatarContent>
+                                    <MudAvatar>
+                                        <MudImage Src="@($"images/tech/{tech}.svg")"></MudImage>
+                                    </MudAvatar>
+                                </AvatarContent>
+                                <ChildContent>@tech</ChildContent>
+                            </MudChip>
+                        }
 
 
-                </MudStack>
+                    </MudStack>
 
-                <MudStack Row
-                          Justify="Justify.SpaceBetween"
-                          AlignItems="AlignItems.Center">
+                    <MudStack Row
+                              Justify="Justify.SpaceBetween"
+                              AlignItems="AlignItems.Center">
 
-                  @*   <MudButton Variant="Variant.Filled"
+                        @*   <MudButton Variant="Variant.Filled"
                                Color="Color.Primary"
                                EndIcon="@Icons.Material.Filled.OpenInNew" class="rounded-lg">
 
                         <MudText Typo="Typo.body1">Visit Live</MudText>
 
                     </MudButton> *@
-                    <MudLink 
-                             Class="project-link">
+                        <MudLink Class="project-link" Href="@FeaturedProject.LiveUrl" Target="_blank">
 
-                        Watch Demo
+                            Visit Live
 
-                        <MudIcon Icon="@Icons.Material.Filled.OpenInNew"
-                                 Size="Size.Small" />
+                            <MudIcon Icon="@Icons.Material.Filled.OpenInNew"
+                                     Size="Size.Small" />
 
-                    </MudLink>
+                        </MudLink>
 
-                    <MudText Class="view-link">
-                        CLICK TO VIEW →
-                    </MudText>
+                        <MudText Class="view-link">
+                            CLICK TO VIEW →
+                        </MudText>
+
+                    </MudStack>
 
                 </MudStack>
 
-            </MudStack>
-
-        </MudItem>
+            </MudItem>
+        }
+       
 
     </MudGrid>
 
@@ -136,6 +139,7 @@
         align-items: center;
         gap: 6px;
         text-decoration: none;
+        cursor:pointer;
     }
 
         .project-link:hover {
@@ -243,10 +247,32 @@
     }
 </style>
 
-    @code{
+@code{
+    private List<ProjectModel> Projects = new();
+
+    private ProjectModel? FeaturedProject;
+
     protected override void OnInitialized()
     {
         GradientService.OnChange += Refresh;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProject();
+
+    }
+
+    private async Task LoadProject()
+    {
+
+        if (!Projects.Any())
+        {
+
+            Projects = await Http.GetFromJsonAsync<List<ProjectModel>>("data/projects.json") ?? new();
+        }
+
+        FeaturedProject = Projects.FirstOrDefault(p => p.Featured);        
     }
 
     private void Refresh()

@@ -64,10 +64,13 @@
 
                         @foreach (var tech in project.Technologies)
                         {
-                            <MudChip T="string"
-                                     Variant="Variant.Outlined"
-                                     Size="Size.Small">
-                                @tech
+                            <MudChip T="string" Variant="Variant.Outlined" Size="Size.Small">
+                                <AvatarContent>
+                                    <MudAvatar>
+                                        <MudImage Src="@($"images/tech/{tech}.svg")"></MudImage>
+                                    </MudAvatar>
+                                </AvatarContent>
+                                <ChildContent>@tech</ChildContent>
                             </MudChip>
                         }
 
@@ -81,6 +84,26 @@
     }
 
 </MudGrid>
+
+<MudStack style="width:100%; margin-top:10px;" AlignItems="AlignItems.Start">
+    @*    <MudButton class="ml-2 see-more-button" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.ArrowDownward">
+                    <MudText>See More</MudText>
+                </MudButton> *@
+
+        <MudButton onclick="@(() => ToggleProjects())"
+               EndIcon="@(visibleProjects >= ProjectsModel.Count(p => !p.Featured) ?@Icons.Material.Filled.ArrowUpward : Icons.Material.Filled.ArrowDownward )"
+                   Variant="Variant.Outlined"
+                   Class="see-more-button ml-3 rounded-lg" Size="Size.Small"
+                   Style="@($"--see-more-button-color:{GradientService.CurrentTheme.Color}; --project-button-shadow:{GradientService.CurrentTheme.Shadow};")">
+
+            @(visibleProjects >= ProjectsModel.Count(p => !p.Featured)
+        ? "See Less"
+        : "See More")
+
+        </MudButton>
+
+   
+</MudStack>
 
 
 
@@ -296,13 +319,14 @@
 
     private bool showProjectDetails;
     private int SelectedProjectId;
+    private int visibleProjects = 3;
 
     private List<ProjectModel> ProjectsModel = new();
     private ProjectModel? CurrentProject;
     private IEnumerable<ProjectModel> ProjectsToDisplay =>
     ProjectsModel
         .Where(p => !p.Featured)
-        .Take(3);
+        .Take(visibleProjects);
 
 
     private void OpenProjectDetails(int index)
@@ -327,6 +351,16 @@
         ProjectsModel = await Http.GetFromJsonAsync<List<ProjectModel>>("data/projects.json")
                     ?? new();
 
+    }
+
+    private void ToggleProjects()
+    {
+        int total = ProjectsModel.Count(p => !p.Featured);
+
+        if (visibleProjects >= total)
+            visibleProjects = 3;
+        else
+            visibleProjects = Math.Min(visibleProjects + 3, total);
     }
 
         private void Refresh()
