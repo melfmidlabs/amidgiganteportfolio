@@ -121,11 +121,15 @@
     "category": "Embedded System",
     "year": "2023",
     "featured": false,
-    "description": "An ESP32-based smart recycling machine that validates recyclable bottles and cans, automates reward dispensing, and monitors waste capacity and water levels to support efficient, sustainable recycling.",
+    "description": "An AI-powered sanitizing robot designed to improve campus safety through contactless health screening and automation. The system integrates facial recognition, thermal imaging, and a web-based monitoring platform to streamline attendance and health checks.",
 
     "technologies": [
       "arduino",
-      "raspberrypi"
+      "raspberrypi",
+      "html",
+      "css",
+      "javascript",
+      "mysql"
     ],
 
     "githubUrl": "",
